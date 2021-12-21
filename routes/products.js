@@ -102,6 +102,13 @@ router.post('/add/', async (req, res) => {
 /*
   This route is used for viewing the Inventory page
 */
+router.get('/', async (req, res) => {
+  res.redirect('/api/products/inventory');
+});
+
+/*
+  This route is used for viewing the Inventory page
+*/
 router.get('/inventory/', async (req, res) => {
   const catagories = await Catagory.find();
 

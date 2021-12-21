@@ -40,6 +40,7 @@ app.use(express.urlencoded({extended: true}))
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
 app.use('/api/customers', customers);
+app.use('/', products);
 app.use('/api/products', products);
 app.use('/api/Orders', orders);
 app.use('/api/users', users);
