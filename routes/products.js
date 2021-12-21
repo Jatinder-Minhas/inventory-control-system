@@ -267,7 +267,7 @@ router.get('/stock_In_Short', async (req, res) => {
 
   const stockInShort = await Product.find().where({isShort: true});
 
-  res.render('stock_In_Short', { stockInShort: stockInShort});
+  res.render('stock_in_short', { stockInShort: stockInShort});
 
 });
 
