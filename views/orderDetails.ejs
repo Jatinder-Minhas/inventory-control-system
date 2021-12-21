@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>
+        Order Details
+    </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/orderDetails.css" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing Script">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="topnav" id="navbar">
+            <div class="topnav" id="navbar">
+                <div class="reverse">
+                    <a href="/api/products/inventory">Inventory</a>
+                    <a href="/api/products/update_delete">Update/Delete</a>
+                    <a href="/api/orders/createOrder">Create Order</a>
+                    <div class="dropDown">
+                        <button class="dropBtn">Other Options
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+
+                        <div class="dropdown-content">
+                            <a href="/api/products/add/" target="_blank">Add Product</a>
+                            <a href="/api/customers/view/" target="_blank">View Customers</a>
+                            <a href="/api/orders/view/" target="_blank">View Orders</a>
+                            <a href="/api/products/stock_In_Short" target="_blank">Stock in short</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fixed_header">
+
+            <h1>Order Details</h1>
+
+            <table id="table">
+                <div id="scroll">
+                    <tbody>
+                        <% orders.forEach((item)=>{%>
+
+                            <tr>
+                                <td>
+                                    <span>Order Id: </span>
+                                </td>
+                                <td>
+                                    <%= item._id%>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span>Phone: </span>
+                                </td>
+                                <td>
+                                    <%= item.phone%>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span>No. Of Items: </span>
+                                </td>
+                                <td>
+                                    <%= item.noOfItems %>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <span>Date: </span>
+                                </td>
+                                <td>
+                                    <%= moment( item.date ).format( 'MMM-DD-YYYY HH:mm:ss') %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span>TotalPrice: </span>
+                                </td>
+                                <td>
+                                    <%= item.totalPrice %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span>AmountPaid: </span>
+                                </td>
+                                <td>
+                                    <%= item.amountPaid %>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span>Status: </span>
+                                </td>
+                                <td>
+                                    <%= item.status ? 'Paid' : 'Pending' %>
+                                </td>
+                            </tr>
+                        <%});%>
+                    </tbody>
+                </div>
+            </table>
+
+            <h4>Order Items</h4>
+
+            <table id="table">
+                <div id="scroll">
+                    <tbody>
+                        <% orders.forEach((item)=>{%>
+                        <% (item.items).forEach((list, index)=>{%>
+                        <tr>
+                            <td>
+                                <%= index + 1 %>
+                            </td>
+                                <div>
+                                    <td>
+                                        <span id="itemsLabel">Part Id: </span> <%= list.prodId %> <br>
+                                        <span id="itemsLabel">Part Name: </span> <%= list.prodName %> <br>
+                                        <span id="itemsLabel">Quantity: </span><%= list.quantity %> <br>
+                                    </td>
+                                </div>
+                        </tr>
+                        <%});%>
+                        <%});%>
+                    </tbody>
+                </div>
+            </table>
+        </div>
+
+        <footer id="footer">
+            <div class="parent-footer">
+        </footer>
+
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>
+            Update Delete
+        </title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/css/update_delete.css" type="text/css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing Script">
+    </head>
+
+    <body>
+        
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+            
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title">Delete Product</h4>
+                </div>
+                
+                <form action="/api/products/update_delete/product/delete" name="deleteProductForm" method="POST">
+                    <div class="modal-body">
+                        <p>You are about to Delete the product with</p>
+                        <table>
+                            <tr>
+                                <th>Product Number: </th>
+                                <td><input type="text" id="deleteProdId" name="prodId" readonly></td>
+                            </tr>
+      
+                            <tr>
+                              <th>Upc: </th>
+                              <td><input type="text" id="deleteUpc" name="upc" readonly></td>
+                          </tr>
+                        </table>
+                      </div>
+                      <div class="modal-footer">
+                        <button class="btn btn-danger" >Confirm</button>
+                      </div>
+                    </div>
+                </form>
+              
+            </div>
+          </div>
+
+        <div class="wrapper">
+            <div class="topnav" id="navbar">
+                    <div class="reverse">
+                        <a href="/api/products/inventory">Inventory</a>
+                        <a href="/api/products/update_delete" class="active">Update/Delete</a>
+                        <a href="/api/orders/createOrder">Create Order</a>
+                        <div class="dropDown">
+                            <button class="dropBtn">Other Options
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                        
+                            <div class="dropdown-content">
+                                <a href="/api/products/add/" target="_blank">Add Product</a>
+                                <a href="/api/customers/view/" target="_blank">View Customers</a>
+                                <a href="/api/orders/view/" target="_blank">View Orders</a>
+                                <a href="/api/products/stock_In_Short" target="_blank">Stock in short</a>
+                            </div>
+                        
+                        </div>
+                    </div>
+            </div>
+
+                <div class="search">
+                    <form action="/api/products/update_delete/productId/" method="POST">
+                        <label id="searchLabel" for="txtSearch">Enter partNo./upc:</label>
+                        <input type="text" id="txtSearch" name="prodId" value="<%=product.prodId%>">
+                        <input type="submit" id="btnSearch" class="btn btn-primary" value="Search">
+                    </form>
+                    <span id="error"><%=searchMessage%></span>
+                </div>
+
+            <div class="form">
+
+                <h4>Product Details</h4>
+                <form action="/api/products/update_delete/product/makeUpdate" method="POST">
+                    <div class="formRow">
+                        <div class="row">
+                            <label for="prodId">Product Number: </label>
+                            <input type="text" name="prodId" id="prodId" value="<%=product.prodId%>" disabled>
+                        </div>
+        
+                        <div class="row">
+                            <label for="upc">Product UPC: </label>
+                            <input type="text" name="upc" id="upc" value="<%=product.upc%>" disabled>
+                        </div>
+                    </div>
+
+                    <div class="formRow">
+                        <div class="row">
+                            <label for="prodName">Product Name: </label>
+                            <input type="text" name="prodName" id="prodName" value="<%=product.prodName%>" disabled>
+                        </div>
+    
+                        <div class="row">
+                            <label for="catagory">Product catagory: </label>
+                            <input type="text" name="catagory" id="catagory" value="<%=product.catagory%>" disabled>
+                        </div>
+                    </div>
+    
+                    <div class="textArea">
+                        <label for="desc">Product Description: </label>
+                        <textarea id="desc" name="desc" rows="4" cols="50" disabled><%=product.desc%></textarea>
+                    </div>
+
+                    <div class="formRow">
+                        <div class="row">
+                            <label for="quantity">Quantity Availible: </label>
+                            <input type="text" name="quantity" id="quantity" value="<%=product.quantity%>" disabled>
+                        </div>
+
+                        <div class="row">
+                            <label for="minQuantity">Minimum Bin Quantity: </label>
+                            <input type="text" name="minQuantity" id="minQuantity" value="<%=product.minQuantity%>" disabled>
+                        </div>
+                    </div>
+
+                    <div class="formRow">
+                        <div class="row">
+                            <label for="retailPrice">Retail Price: </label>
+                            <input type="text" name="retailPrice" id="retailPrice" value="<%=product.retailPrice%>" disabled>
+                        </div>
+    
+                        <div class="row">
+                            <label for="cost">Cost: </label>
+                            <input type="text" name="cost" id="cost" value="<%=product.cost%>" disabled>
+                        </div>
+                    </div>
+
+                    <div class="btn">
+                        <button type="button" class="btn btn-primary" id="btnEdit">Edit Product</button>
+                        <button data-toggle="modal" data-target="#myModal" type="button" class="btn btn-danger" id="btnDelete">Delete Product</button>
+                        <button class="btn btn-warning" id="btnUpdate">Save Changes</button>
+                    </div>
+
+                    <div>
+                        <span id="message"><%=message%></span>
+                        <span id="error"><%=error%></span>
+                    </div>
+                    
+                </form>
+
+            </div>
+            
+           <footer id="footer">
+                <div class="parent-footer">
+            </footer>
+
+
+        </div>
+
+        <script src="/js/update_delete.js">
+        </script>
+
+        
+
+    </body>
+
+</html>

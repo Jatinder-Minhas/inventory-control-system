@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>
+        Inventory
+    </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/inventory.css" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing Script">
+</head>
+
+<body>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Details View</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="selectedDetails">
+
+                <table id="detailsTable">
+                    <tbody>
+                        <tr>
+                            <td>Part Number: </td>
+                            <td id="partNo"></td>
+                        </tr>
+
+                        <tr>
+                            <td>UPC: </td>
+                            <td id="upc"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Product Name: </td>
+                            <td id="prodName"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Catagory: </td>
+                            <td id="catagory"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Description: </td>
+                            <td id="desc"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Quantity: </td>
+                            <td id="quantity"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Price: </td>
+                            <td id="price"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Cost: </td>
+                            <td id="cost"></td>
+                        </tr>
+
+                        <tr>
+                            <td>Min Quantity: </td>
+                            <td id="minQuantity"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer" id="modalBtn">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" >Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="wrapper">
+        <div class="topnav" id="navbar">
+            <div class="topnav" id="navbar">
+                <div class="reverse">
+                    <a href="/api/products/inventory" class="active">Inventory</a>
+                    <a href="/api/products/update_delete">Update/Delete</a>
+                    <a href="/api/orders/createOrder">Create Order</a>
+                    <div class="dropDown">
+                        <button class="dropBtn">Other Options
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+
+                        <div class="dropdown-content">
+                            <a href="/api/products/add/" target="_blank">Add Product</a>
+                            <a href="/api/customers/view/" target="_blank">View Customers</a>
+                            <a href="/api/orders/view/" target="_blank">View Orders</a>
+                            <a href="/api/products/stock_In_Short" target="_blank">Stock in short</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="search">
+            <form action="/api/products/searchResult/" method="POST" class="searchForm">
+
+                <div class="formRow">
+
+                    <h4>Search</h4>
+
+                    <div class="row">
+                        <label for="search">PartNo/Upc/Name: </label>
+                        <input type="text" name="txtSearch" id="txtSearch">
+                    </div>
+
+                    <div class="row">
+                        <label for="catagory">Catagory: </label>
+                        <select name="catagory" id="catagory">
+                            <option value="any">Any</option>
+                            <% catagories.forEach((item)=>{%>
+                                <option value="<%=item.cataName%>">
+                                    <%=item.cataName%>
+                                </option>
+                                <%});%>
+                        </select>
+                    </div>
+
+                    <div class="btn">
+                        <button class="btn btn-primary" id="btnSearch">Search</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="fixed_header">
+            <table id="table">
+                <thead>
+                    <tr>
+                        <th>Part No.</td>
+                        <th>UPC</th>
+                        <th>Product Name</th>
+                        <th>Quantity</th>
+                        <th>Retail Price</th>
+                    </tr>
+                </thead>
+                <div id="scroll">
+                    <tbody>
+                        <% products.forEach((item)=>{%>
+                            <tr style="<%= item.isShort ? 'background-color: orange' : '' %>">
+                                <td>
+                                    <%=item.prodId%>
+                                </td>
+                                <td>
+                                    <%=item.upc%>
+                                </td>
+                                <td>
+                                    <%=item.prodName%>
+                                </td>
+                                <td>
+                                    <%=item.quantity%>
+                                </td>
+                                <td>
+                                    $<%=item.retailPrice%>
+                                </td>
+                            </tr>
+                            <%});%>
+                    </tbody>
+                </div>
+            </table>
+
+            <button type="button" class="btn btn-primary" id="floatRight" data-toggle="modal" data-target="#exampleModalCenter">
+                View Details
+              </button>
+        </div>
+
+        <footer id="footer">
+            <div class="parent-footer">
+        </footer>
+
+
+    </div>
+    
+    <script>
+        var data = <%- stringifyFile %>;
+    </script>
+
+    <script src="/js/inventory.js">
+    </script>
+
+</body>
+
+</html>

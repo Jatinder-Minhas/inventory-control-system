@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>
+            Add Product
+        </title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/css/addProduct.css" type="text/css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Dancing Script">
+    </head>
+
+    <body>
+
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+            
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Error Message</h4>
+                </div>
+                
+                <form action="/api/products/update_delete/product/delete" name="deleteProductForm" method="POST">
+                    <div class="modal-body">
+                        <p id="errorMessage"></p>
+                    </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" >Close</button>
+                      </div>
+                    </div>
+                </form>
+              
+            </div>
+          </div>
+        
+        <div class="wrapper">
+            <div class="topnav" id="navbar">
+                    <div class="reverse">
+                        <a href="/api/products/inventory">Inventory</a>
+                        <a href="/api/products/update_delete">Update/Delete</a>
+                        <a href="/api/orders/createOrder">Create Order</a>
+                        <div class="dropDown">
+                            <button class="dropBtn">Other Options
+                                <i class="fa fa-caret-down"></i>
+                            </button>
+                        
+                            <div class="dropdown-content">
+                                <a href="/api/products/add/" class="active" target="_blank">Add Product</a>
+                                <a href="/api/customers/view/" target="_blank">View Customers</a>
+                                <a href="/api/orders/view/" target="_blank">View Orders</a>
+                                <a href="/api/products/stock_In_Short" target="_blank">Stock in short</a>
+                            </div>
+                        
+                        </div>
+                    </div>
+            </div>
+
+            <div class="form">
+
+                <h4> Add New Product</h4>
+                <form action="" method="POST">
+                    <div class="formRow">
+                        <div class="row">
+                            <label for="prodId">Part Number: </label>
+                            <input type="text" name="prodId" id="prodId">
+                        </div>
+        
+                        <div class="row">
+                            <label for="upc">Product UPC: </label>
+                            <input type="text" name="upc" min="12" max="12" id="upc">
+                        </div>
+                    </div>
+
+                    <div class="formRow">
+                        <div class="row">
+                            <label for="prodName">Product Name: </label>
+                            <input type="text" name="prodName" id="prodName" >
+                        </div>
+
+                        <div class="row">
+                            <label for="catagory">Catagory: </label>
+                            <select name="catagory" id="catagory">
+                                <option value="unvalid">Select One Option</option>
+                                <% catagories.forEach((item)=>{%>
+                                    <option value="<%=item.cataName%>" ><%=item.cataName%></option>
+                                <%});%>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row" id="otherCata">
+                        <label for="OtherCatagory">Product catagory: </label>
+                        <input type="text" name="otherCatagory" id="otherCatagory" >
+                    </div>
+                    
+    
+                    <div class="textArea">
+                        <label for="desc">Product Description: </label>
+                        <textarea id="desc" name="desc" rows="4" cols="50" ></textarea>
+                    </div>
+
+                    <div class="formRow">
+                        <div class="row">
+                            <label for="quantity">Quantity: </label>
+                            <input type="text" name="quantity" id="quantity" >
+                        </div>
+
+                        <div class="row">
+                            <label for="minQuantity">Minimum Bin Quantity: </label>
+                            <input type="text" name="minQuantity" id="minQuantity">
+                        </div>
+                    </div>
+
+                    <div class="formRow">
+                        <div class="row">
+                            <label for="retailPrice">Retail Price: </label>
+                            <input type="text" name="retailPrice" id="retailPrice">
+                        </div>
+    
+                        <div class="row">
+                            <label for="cost">Cost: </label>
+                            <input type="text" name="cost" id="cost" >
+                        </div>
+                    </div>
+
+                    <div >
+                        <span id="message"><%=message%></span>
+                        <span id="error"><%=error%></span>
+                    </div>
+
+                    <div class="btn">
+                        <button class="btn btn-primary" id="btnAdd">Add Product</button>
+                    </div>
+                    
+                </form>
+
+            </div>
+
+            <footer id="footer">
+                <div class="parent-footer">
+            </footer>
+
+
+        </div>
+
+        <script src="/js/addProduct.js">
+        </script>
+
+    </body>
+
+</html>
