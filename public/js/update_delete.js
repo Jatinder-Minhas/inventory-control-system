@@ -2,23 +2,26 @@ $(document).ready( () => {
 
     $(document).on("click", "#btnEdit", function () {
 
-        $("#message").html("");
-        $("#prodId").prop("disabled", false);
-        $("#upc").prop("disabled", false);
-        $("#prodId").prop("readonly", true);
-        $("#upc").prop("readonly", true);
-        $("#prodName").prop("disabled", false);
-        $("#catagory").prop("disabled", false);
-        $("#desc").prop("disabled", false);
-        $("#quantity").prop("disabled", false);
-        $("#minQuantity").prop("disabled", false);
-        $("#retailPrice").prop("disabled", false);
-        $("#cost").prop("disabled", false);
+        if($("#prodId").val() != "")
+        {
+            $("#message").html("");
+            $("#prodId").prop("disabled", false);
+            $("#upc").prop("disabled", false);
+            $("#prodId").prop("readonly", true);
+            $("#upc").prop("readonly", true);
+            $("#prodName").prop("disabled", false);
+            $("#catagory").prop("disabled", false);
+            $("#desc").prop("disabled", false);
+            $("#quantity").prop("disabled", false);
+            $("#minQuantity").prop("disabled", false);
+            $("#retailPrice").prop("disabled", false);
+            $("#cost").prop("disabled", false);
 
-        $("#btnUpdate").css("display", "block");
+            $("#btnUpdate").css("display", "block");
 
-        $(this).attr('id', 'btnCancel');
-        $(this).html("Cancel");
+            $(this).attr('id', 'btnCancel');
+            $(this).html("Cancel");
+        }
     });
 
     $(document).on("click", "#btnCancel", function () {
