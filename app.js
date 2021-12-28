@@ -47,10 +47,9 @@ app.use(express.urlencoded({extended: true}))
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
 app.use('/api/customers', customers);
-app.use('/api/auth', auth);
+app.use('/', auth);
 app.use('/api/products', products);
 app.use('/api/Orders', orders);
-app.use('/api/users', users);
 app.use('/api/customers', customers);
 
 const port = process.env.PORT || 3000;
