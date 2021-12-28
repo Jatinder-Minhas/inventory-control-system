@@ -20,24 +20,24 @@
 
     <div class="wrapper">
         <div class="topnav" id="navbar">
-            <div class="topnav" id="navbar">
-                <div class="reverse">
-                    <a href="/api/products/inventory">Inventory</a>
-                    <a href="/api/products/update_delete">Update/Delete</a>
-                    <a href="/api/orders/createOrder">Create Order</a>
-                    <div class="dropDown">
-                        <button class="dropBtn">Other Options
-                            <i class="fa fa-caret-down"></i>
-                        </button>
+            <span id="name"><%=username%></span>
+            <div class="reverse">
+                <a href="/api/products/inventory" >Inventory</a>
+                <a href="/api/products/update_delete">Update/Delete</a>
+                <a href="/api/orders/createOrder">Create Order</a>
+                <div class="dropDown">
+                    <button class="dropBtn">Other Options
+                        <i class="fa fa-caret-down"></i>
+                    </button>
 
-                        <div class="dropdown-content">
-                            <a href="/api/products/add/" target="_blank">Add Product</a>
-                            <a href="/api/customers/view/" target="_blank">View Customers</a>
-                            <a href="/api/orders/view/" target="_blank">View Orders</a>
-                            <a href="/api/products/stock_In_Short" class="active" target="_blank">Stock in short</a>
-                        </div>
-
+                    <div class="dropdown-content">
+                        <a href="/api/products/add/" target="_blank">Add Product</a>
+                        <a href="/api/customers/view/" target="_blank">View Customers</a>
+                        <a href="/api/orders/view/" target="_blank">View Orders</a>
+                        <a href="/api/products/stock_In_Short" target="_blank" class="active" >Stock in short</a>
+                        <a id="logout" href="/api/auth/logout" >Logout</a>
                     </div>
+
                 </div>
             </div>
         </div>

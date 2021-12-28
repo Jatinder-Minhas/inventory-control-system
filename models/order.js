@@ -9,10 +9,6 @@ const Order = mongoose.model('Order', new mongoose.Schema({
         required: true,
         maxlength: 20
     },
-    noOfItems: {
-        type: Number,
-        required: true
-    },
     items: {
         type: Object,
         required: true
@@ -39,7 +35,6 @@ function validateOrder(Order)
 {
     const schema = Joi.object({
         phone: Joi.Number().required(),
-        noOfItems: Joi.Number().required(),
         items: Joi.object().required(),
         date: Joi.Date().require(),
         totalPrice: Joi.Number().required(),

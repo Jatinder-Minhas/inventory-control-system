@@ -1,15 +1,25 @@
+require('dotenv').config();
+var cookies = require("cookie-parser");
+const config = require('config');
 const startupDebugger = require('debug')('app:startup');
 const dbDebugger = require('debug')('app:db');
-const path = require('path');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
 const customers = require('./routes/customers');
 const products = require('./routes/products');
 const orders = require('./routes/orders');
 const users = require('./routes/users');
+const auth = require('./routes/auth');
 const express = require('express');
+const cookieParser = require('cookie-parser');
 const app = express();
-const { MongoClient } = require('mongodb');
+app.use(cookieParser());
+
+if(!config.get('jwtPrivateKey'))
+{
+  console.error('FATEL ERROR: jwtPrivateKey is not defined.');
+  process.exit(1);
+}
+
 
 const username = "GSDSurinder1";
 const password = "GSDSurinder9865";
@@ -30,9 +40,6 @@ db.once("open", function () {
   console.log("Connected successfully");
 });
 
-// mongoose.connect('mongodb+srv://GSDSurinder1:GSDSurinder9865@inventory0.y24ip.mongodb.net/InventoryAndOrder?retryWrites=true&w=majority')
-//     .then(() => dbDebugger('Connected to MongoDB...'))
-//     .catch(err => dbDebugger('Database connection failed!'));
 
 app.use(express.json());
 app.use(express.json()); // support json encoded bodies
@@ -40,7 +47,7 @@ app.use(express.urlencoded({extended: true}))
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
 app.use('/api/customers', customers);
-app.use('/', products);
+app.use('/api/auth', auth);
 app.use('/api/products', products);
 app.use('/api/Orders', orders);
 app.use('/api/users', users);

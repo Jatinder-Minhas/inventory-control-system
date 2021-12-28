@@ -1,17 +1,18 @@
+const auth = require('../middleware/auth');
 const {Customer, validate} = require('../models/customer');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
-router.get('/view', async (req, res) => {
+router.get('/view', auth, async (req, res) => {
 
   const customers = await Customer.find();
 
-  res.render('viewCustomers', { customers: customers})
+  res.render('viewCustomers', { username: global.username, customers: customers})
 
 }); 
 
-router.post('/searchCustomer', async (req, res) => {
+router.post('/searchCustomer', auth, async (req, res) => {
 
   txtSearch = req.body.txtSearch;
 
@@ -24,7 +25,7 @@ router.post('/searchCustomer', async (req, res) => {
    customers = await Customer.find().where({phone: txtSearch});
   }
 
-  res.render('viewCustomers', { customers: customers})
+  res.render('viewCustomers', { username: global.username, customers: customers})
 
 }); 
 

@@ -1,3 +1,4 @@
+const auth = require('../middleware/auth');
 const { Product, validate } = require('../models/product');
 const express = require('express');
 const router = express.Router();
@@ -25,7 +26,7 @@ var amountPaid = 0;
 This route is used to view the Create Order page
 */
 
-router.get('/createOrder', async (req, res) => {
+router.get('/createOrder', auth, async (req, res) => {
 
   itemNo = 1;
   orderTable = [];
@@ -33,7 +34,7 @@ router.get('/createOrder', async (req, res) => {
 
   stringifyFile = [];
 
-  res.render('createOrder', { stringifyFile: stringifyFile, products: orderTable, error: error});
+  res.render('createOrder', { username: global.username, stringifyFile: stringifyFile, products: orderTable, error: error});
 
 });
 
@@ -41,7 +42,7 @@ router.get('/createOrder', async (req, res) => {
 This route is used to view the Create Order page
 */
 
-router.post('/createOrder/', async (req, res) => {
+router.post('/createOrder/', auth, async (req, res) => {
 
   let txtSearch;
   let txtQuantity;
@@ -76,12 +77,12 @@ router.post('/createOrder/', async (req, res) => {
   stringifyFile = JSON.stringify(orderTable);
   console.log(stringifyFile);
 
-  res.render('createOrder', {stringifyFile: stringifyFile, products: orderTable, error: error});
+  res.render('createOrder', { username: global.username, stringifyFile: stringifyFile, products: orderTable, error: error});
 
 });
 
 
-router.post('/createOrder/removeItem', async (req, res) => {
+router.post('/createOrder/removeItem', auth, async (req, res) => {
 
   var no = req.body.txtItemNo;
 
@@ -98,7 +99,7 @@ router.post('/createOrder/removeItem', async (req, res) => {
 
   stringifyFile = JSON.stringify(orderTable);
 
-  res.render('createOrder', {stringifyFile: stringifyFile, products: orderTable, error: ""});
+  res.render('createOrder', { username: global.username, stringifyFile: stringifyFile, products: orderTable, error: ""});
 
 });
 
@@ -107,7 +108,7 @@ router.post('/createOrder/removeItem', async (req, res) => {
 This route is used to add the order
 */
 
-router.post('/addToOrder', async (req, res) => {
+router.post('/addToOrder', auth, async (req, res) => {
 
     custName = req.body.custName;
     phone = req.body.phone;
@@ -134,7 +135,6 @@ router.post('/addToOrder', async (req, res) => {
 
   let order = new Order({
     phone: phone,
-    noOfItems: orderTable.length,
     items: orderTable,
     date: Date.now(),
     totalPrice: totalPrice,
@@ -158,14 +158,14 @@ router.post('/addToOrder', async (req, res) => {
   var error = "";
   stringifyFile = [];
 
-  res.render('createOrder', { stringifyFile: stringifyFile, products: orderTable, error: error});
+  res.render('createOrder', { username: global.username, stringifyFile: stringifyFile, products: orderTable, error: error});
   });
 
 /*
 This route is used to view the View Order page
 */
 
-router.get('/view', async (req, res) => {
+router.get('/view', auth, async (req, res) => {
 
     const orders = await Order.find().where({ date: {
       $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), 
@@ -174,7 +174,7 @@ router.get('/view', async (req, res) => {
 
     stringifyFile = JSON.stringify(orders);
 
-    res.render('viewOrders', {stringifyFile: stringifyFile, orders: orders, moment: moment});
+    res.render('viewOrders', { username: global.username,stringifyFile: stringifyFile, orders: orders, moment: moment});
 
   });
 
@@ -182,7 +182,7 @@ router.get('/view', async (req, res) => {
 This route is used to search the order on View Order page
 */
 
-  router.post('/searchOrder', async (req, res) => {
+  router.post('/searchOrder', auth, async (req, res) => {
 
     var orders = [];
   
@@ -250,14 +250,14 @@ This route is used to search the order on View Order page
   
     stringifyFile = JSON.stringify(orders);
   
-    res.render('viewOrders', { orders: orders, stringifyFile: stringifyFile, moment: moment });
+    res.render('viewOrders', { username: global.username, orders: orders, stringifyFile: stringifyFile, moment: moment });
   });
 
 /*
 This route is used to view the details of the order
 */
 
-  router.post('/viewOrder', async (req, res) => {
+  router.post('/viewOrder', auth, async (req, res) => {
 
     console.log((req.body._id).trim());
 
@@ -267,7 +267,7 @@ This route is used to view the details of the order
 
     console.log(JSON.stringify(orders));
 
-    res.render('orderDetails', {orders: orders, moment: moment});
+    res.render('orderDetails', { username: global.username, orders: orders, moment: moment});
 
   });
 
@@ -275,7 +275,7 @@ This route is used to view the details of the order
 This route is used to change the status of a order to paid
 */
 
-  router.post('/changeStatus', async (req, res) => {
+  router.post('/changeStatus', auth, async (req, res) => {
 
     _id = (req.body._id).trim();
 
@@ -296,7 +296,7 @@ This route is used to change the status of a order to paid
   
       stringifyFile = JSON.stringify(orders);
   
-      res.render('viewOrders', {stringifyFile: stringifyFile, orders: orders, moment: moment});
+      res.render('viewOrders', { username: global.username, stringifyFile: stringifyFile, orders: orders, moment: moment});
 
   });
 

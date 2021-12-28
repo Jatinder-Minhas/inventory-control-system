@@ -1,10 +1,9 @@
+const auth = require('../middleware/auth');
 const { Product, validate } = require('../models/product');
 const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
-var helmet = require('helmet');
 const { Catagory } = require('../models/catagory');
-const { json } = require('body-parser');
 
 
 var error = "";
@@ -14,11 +13,11 @@ var searchMessage = "";
 /*
   This route is used for viewing the Add Product page
 */
-router.get('/add', async (req, res) => {
+router.get('/add', auth, async (req, res) => {
 
   const catagories = await Catagory.find();
 
-  res.render('addProduct', {message: message, catagories:catagories, error: error});
+  res.render('addProduct', { username: global.username, message: message, catagories:catagories, error: error});
 
   error = "";
   message = "";
@@ -28,7 +27,7 @@ router.get('/add', async (req, res) => {
 /*
   This route is used for adding a new product to the database
 */
-router.post('/add/', async (req, res) => {
+router.post('/add/', auth, async (req, res) => {
   const product = await Product.find().where({ $or: [{ prodId: req.body.prodId }, { upc: req.body.upc }, { prodName: req.body.prodName }]});
 
   let cata = '';
@@ -102,27 +101,20 @@ router.post('/add/', async (req, res) => {
 /*
   This route is used for viewing the Inventory page
 */
-router.get('/', async (req, res) => {
-  res.redirect('/api/products/inventory');
-});
-
-/*
-  This route is used for viewing the Inventory page
-*/
-router.get('/inventory/', async (req, res) => {
+router.get('/inventory/', auth, async (req, res) => {
   const catagories = await Catagory.find();
 
   var products = [];
   var stringifyFile = [];
 
-  res.render('inventory', { products: products, stringifyFile: stringifyFile, catagories:catagories });
+  res.render('inventory', { username: global.username, username: global.username, products: products, stringifyFile: stringifyFile, catagories:catagories });
 });
 
 
 /*
   This route is used searching in inventory page
 */
-router.post('/searchResult/', async (req, res) => {
+router.post('/searchResult/', auth, async (req, res) => {
   const catagories = await Catagory.find();
 
   var products = [];
@@ -143,9 +135,8 @@ router.post('/searchResult/', async (req, res) => {
   }
   else
   {
-    if(!isNaN(txtSearch) || cataSearch == "")
+    if(!isNaN(txtSearch))
     {
-      console.log(1);
       products = await Product.find().where({ $or: [
         { prodId: txtSearch },
         { upc: txtSearch },
@@ -154,10 +145,8 @@ router.post('/searchResult/', async (req, res) => {
     }
     else
     {
-      console.log(2);
       products = await Product.find().where({ $or: [
         { prodName: {$regex: txtSearch.toUpperCase()}},
-        {cataName: {$regex: cataSearch.toUpperCase()} },
         { catagory: req.body.catagory}
       ]});
     }
@@ -165,22 +154,22 @@ router.post('/searchResult/', async (req, res) => {
 
   stringifyFile = JSON.stringify(products);
 
-  res.render('inventory', { products: products, stringifyFile: stringifyFile, catagories:catagories });
+  res.render('inventory', { username: global.username, products: products, stringifyFile: stringifyFile, catagories:catagories });
 });
 
 /*
   This route is used for viewing the update delete page
 */
-router.get('/update_delete', async (req, res) => {
+router.get('/update_delete', auth, async (req, res) => {
 
-  res.render('update_delete', { product: emptyProduct(), error: "", message: "", searchMessage: "", stringifyFile: [] });
+  res.render('update_delete', { username: global.username, product: emptyProduct(), error: "", message: "", searchMessage: "", stringifyFile: [] });
 
 });
 
 /*
   This route is used to search the product to be deleted
 */
-router.post('/update_delete/productId/', async (req, res) => {
+router.post('/update_delete/productId/', auth, async (req, res) => {
 
   const product = await Product.find().where({ $or: [{ prodId: req.body.prodId}, { upc: req.body.prodId }] });
 
@@ -193,13 +182,13 @@ router.post('/update_delete/productId/', async (req, res) => {
 
   stringifyFile = JSON.stringify(product);
 
-  res.render('update_delete', { product: product[0], error: "", message: "", searchMessage: "", stringifyFile: stringifyFile});
+  res.render('update_delete', { username: global.username, product: product[0], error: "", message: "", searchMessage: "", stringifyFile: stringifyFile});
 });
 
 /*
   This route is used to update the product
 */
-router.post('/update_delete/product/makeUpdate', async (req, res) => {
+router.post('/update_delete/product/makeUpdate', auth, async (req, res) => {
 
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -236,13 +225,13 @@ router.post('/update_delete/product/makeUpdate', async (req, res) => {
   if (!product) return res.status(404).send('The Product with the given ID was not found.');
 
   message = "Changes are Saved";
-  res.render('update_delete', { product: product, error: " ", message: message, searchMessage: "", stringifyFile: [] });
+  res.render('update_delete', { username: global.username, product: product, error: " ", message: message, searchMessage: "", stringifyFile: [] });
 });
 
 /*
   This route is used to delete an product
 */
-router.post('/update_delete/product/delete', async (req, res) => {
+router.post('/update_delete/product/delete', auth, async (req, res) => {
 
   const product = await Product.deleteOne({prodId: req.body.prodId});
 
@@ -257,17 +246,17 @@ router.post('/update_delete/product/delete', async (req, res) => {
       message = "";
     }
 
-  res.render('update_delete', { product: emptyProduct(), error: error, message: message, searchMessage: "", stringifyFile: [] });
+  res.render('update_delete', { username: global.username, product: emptyProduct(), error: error, message: message, searchMessage: "", stringifyFile: [] });
 });
 
 /*
   This route is used for viewing stocks in short
 */
-router.get('/stock_In_Short', async (req, res) => {
+router.get('/stock_In_Short', auth, async (req, res) => {
 
   const stockInShort = await Product.find().where({isShort: true});
 
-  res.render('stock_in_short', { stockInShort: stockInShort});
+  res.render('stock_in_short', { username: global.username, stockInShort: stockInShort});
 
 });
 
