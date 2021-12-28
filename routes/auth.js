@@ -6,10 +6,9 @@ const router = express.Router();
 
 var error = '';
 
-router.get('/')
-{
+router.get('/', async (req, res) => {
   res.render('login', {error:error});
-}
+});
 
 router.post('/', async (req, res) => {
   
