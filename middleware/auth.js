@@ -4,9 +4,8 @@ var cookies = require("cookie-parser");
 
 module.exports = function (req, res, next)
 {
-    console.log(req.cookies);
     const token = req.cookies['jwt'];
-    if(!token) return res.status(401).send('Access denied. No token provided.');
+    if(!token) return res.render('accessDenied');
 
     try{
         const decoded = jwt.verify(token, config.get('jwtPrivateKey'));

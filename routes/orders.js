@@ -23,7 +23,7 @@ var amountPaid = 0;
 */
 
 /*
-This route is used to view the Create Order page
+  This route is used to view the Create Order page
 */
 
 router.get('/createOrder', auth, async (req, res) => {
@@ -39,10 +39,10 @@ router.get('/createOrder', auth, async (req, res) => {
 });
 
 /*
-This route is used to view the Create Order page
+  This route is used to add a product to the order
 */
 
-router.post('/createOrder/', auth, async (req, res) => {
+router.post('/createOrder/addItem', auth, async (req, res) => {
 
   let txtSearch;
   let txtQuantity;
@@ -82,6 +82,10 @@ router.post('/createOrder/', auth, async (req, res) => {
 });
 
 
+/*
+  This route is used to remove an item from order
+*/
+
 router.post('/createOrder/removeItem', auth, async (req, res) => {
 
   var no = req.body.txtItemNo;
@@ -108,7 +112,7 @@ router.post('/createOrder/removeItem', auth, async (req, res) => {
 This route is used to add the order
 */
 
-router.post('/addToOrder', auth, async (req, res) => {
+router.post('/createOrder', auth, async (req, res) => {
 
     custName = req.body.custName;
     phone = req.body.phone;

@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
     if (!user)
     {
       error = 'Invalid username or password'
-      res.redirect('/api/auth/login/');
+      res.redirect('/');
       return
     }
 
@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
     if(!validPwd)
     {
       error = 'Invalid username or password'
-      res.redirect('/api/auth/login/');
+      res.redirect('/');
       return
     }
 
@@ -38,9 +38,8 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/logout', async (req, res) => {
-  delete global[username];
   res.clearCookie("jwt");
-  res.redirect('/api/auth/login/');
+  res.redirect('/');
 });
 
 module.exports = router;

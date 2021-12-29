@@ -35,7 +35,7 @@ $(document).ready( () => {
 
         $.ajax({
             type: "POST",
-            url: "/api/orders/addToOrder",
+            url: "/api/orders/createOrder",
             headers : {
                 'Content-Type' : 'application/x-www-form-urlencoded'
               },

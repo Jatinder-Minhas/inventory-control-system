@@ -6,9 +6,9 @@ const router = express.Router();
 const { Catagory } = require('../models/catagory');
 
 
-var error = "";
-var message = ""; 
-var searchMessage = "";
+var error = ""; // stores the error string
+var message = ""; // stores the message string
+var searchMessage = ""; // stores search message
 
 /*
   This route is used for viewing the Add Product page
@@ -122,33 +122,50 @@ router.post('/searchResult/', auth, async (req, res) => {
   var txtSearch = req.body.txtSearch;
   var cataSearch = req.body.catagory;
 
-  if(req.body.catagory == "any")
+  if(txtSearch != '' && txtSearch != null)
   {
-    if(!isNaN(txtSearch))
+    if(cataSearch != 'any')
     {
-      products = await Product.find().where({ $or: [{ prodId: txtSearch}, { upc: txtSearch }] });
+      if(!isNaN(txtSearch))
+      {
+        products = await Product.find().where({ $and: [ 
+                                                        { $or: [{ prodId: txtSearch}, { upc: txtSearch }]},
+                                                        { catagory: cataSearch.toUpperCase()}
+                                                      ] 
+                                              });
+      }
+      else
+      {
+        products = await Product.find().where({ $and: [ 
+                                                        { prodName: {$regex: txtSearch.toUpperCase()} },
+                                                        { catagory: cataSearch.toUpperCase()}
+                                                      ]
+                                              });
+      }
     }
-    else
+    else(cataSearch == 'any')
     {
-      products = await Product.find().where({ prodName: {$regex: txtSearch.toUpperCase()} });
+      if(!isNaN(txtSearch))
+      {
+        products = await Product.find().where({ $and: [ 
+                                                        { $or: [{ prodId: txtSearch}, { upc: txtSearch }]},
+                                                      ] 
+                                              });
+      }
+      else
+      {
+        products = await Product.find().where({ $and: [ 
+                                                        { prodName: {$regex: txtSearch.toUpperCase()} },
+                                                      ]
+                                              });
+      }
     }
   }
   else
   {
-    if(!isNaN(txtSearch))
+    if(cataSearch != 'any')
     {
-      products = await Product.find().where({ $or: [
-        { prodId: txtSearch },
-        { upc: txtSearch },
-        { catagory: req.body.catagory}
-      ]});
-    }
-    else
-    {
-      products = await Product.find().where({ $or: [
-        { prodName: {$regex: txtSearch.toUpperCase()}},
-        { catagory: req.body.catagory}
-      ]});
+      products = await Product.find().where({ catagory: cataSearch} );
     }
   }
 

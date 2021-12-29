@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
+
+/*
+  This routes is used to view all the customers
+*/
 router.get('/view', auth, async (req, res) => {
 
   const customers = await Customer.find();
@@ -12,6 +16,9 @@ router.get('/view', auth, async (req, res) => {
 
 }); 
 
+/*
+  This routes is used to search the customers using name and phone number
+*/
 router.post('/searchCustomer', auth, async (req, res) => {
 
   txtSearch = req.body.txtSearch;
@@ -29,4 +36,5 @@ router.post('/searchCustomer', auth, async (req, res) => {
 
 }); 
 
-  module.exports = router;
+
+module.exports = router;
