@@ -191,9 +191,7 @@ This route is used to search the order on View Order page
     var orders = [];
   
     var txtSearch = req.body.txtSearch;
-    
-    console.log(req.body.beginDate)
-    console.log(req.body.endDate);
+    var isSelected = req.body.pending;
     
     if(req.body.beginDate == "" && req.body.endDate == "")
     {
@@ -216,7 +214,11 @@ This route is used to search the order on View Order page
       var endDate = new Date(req.body.endDate).toISOString();
     }
 
-    if(!isNaN(txtSearch) && txtSearch != "")
+    if(isSelected)
+    {
+      orders = await Order.find().where({status: isSelected});
+    }
+    else if(!isNaN(txtSearch) && txtSearch != "")
     {
       orders = await Order.find().where(
         { $and: [{ phone: txtSearch}, 
@@ -305,18 +307,21 @@ This route is used to change the status of a order to paid
   });
 
 /*
-This function is used to calculate the total price of the order
+  This function is used to calculate the total price of the order
 */
   function totalCostSum(orderTable) {
     var totalCostSum = 0;
 
     for (let i = 0; i < orderTable.length; i++) {
-      totalCostSum = parseFloat(orderTable[i].retailPrice) * parseFloat(orderTable[i].quantity);
+      totalCostSum = totalCostSum + (parseFloat(orderTable[i].retailPrice) * parseFloat(orderTable[i].quantity));
     }
 
     return totalCostSum;
   };
 
+/*
+  This function is used to adjuct the quantity in the database acc. to the order
+*/
   async function ajductQuantity(orderTable)
   {
     console.log(orderTable.length);
@@ -327,10 +332,8 @@ This function is used to calculate the total price of the order
       const product = await Product.find().where({prodId: prodId});
 
       q = product[0].quantity;
-      console.log("q: " + q);
 
       isShort = (q - parseInt(orderTable[i].quantity) < product[0].minQuantity) ? true : false;
-      console.log(isShort);
 
       const p = await Product.findOneAndUpdate({ prodId: prodId},
       {

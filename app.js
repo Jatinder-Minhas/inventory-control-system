@@ -1,4 +1,3 @@
-require('dotenv').config();
 var cookies = require("cookie-parser");
 const config = require('config');
 const startupDebugger = require('debug')('app:startup');
@@ -20,12 +19,17 @@ if(!config.get('jwtPrivateKey'))
   process.exit(1);
 }
 
-
+/*
+  Database details
+*/
 const username = "GSDSurinder1";
 const password = "GSDSurinder9865";
 const cluster = "inventory0.y24ip";
 const dbname = "InventoryAndOrder";
 
+/*
+  Connecting to mongodb database
+*/
 mongoose.connect(
   `mongodb+srv://${username}:${password}@${cluster}.mongodb.net/${dbname}?retryWrites=true&w=majority`, 
   {

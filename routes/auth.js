@@ -6,10 +6,17 @@ const router = express.Router();
 
 var error = '';
 
+/*
+  This route load the login page
+*/
 router.get('/', async (req, res) => {
   res.render('login', {error:error});
 });
 
+
+/*
+  This route is used to valodate and login the user
+*/
 router.post('/', async (req, res) => {
   
     let user = await User.findOne({username: req.body.username});
@@ -37,6 +44,9 @@ router.post('/', async (req, res) => {
     res.redirect('/api/products/inventory');
 });
 
+/*
+  This is used to logout the user
+*/
 router.get('/logout', async (req, res) => {
   res.clearCookie("jwt");
   res.redirect('/');

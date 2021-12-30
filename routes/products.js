@@ -128,18 +128,17 @@ router.post('/searchResult/', auth, async (req, res) => {
     {
       if(!isNaN(txtSearch))
       {
-        products = await Product.find().where({ $and: [ 
-                                                        { $or: [{ prodId: txtSearch}, { upc: txtSearch }]},
-                                                        { catagory: cataSearch.toUpperCase()}
-                                                      ] 
+        console.log("in");
+        products = await Product.find().where({
+                                                $or: [{ prodId: txtSearch}, { upc: txtSearch }],
+                                                catagory: cataSearch.toUpperCase()
                                               });
       }
       else
       {
-        products = await Product.find().where({ $and: [ 
-                                                        { prodName: {$regex: txtSearch.toUpperCase()} },
-                                                        { catagory: cataSearch.toUpperCase()}
-                                                      ]
+        products = await Product.find().where({
+                                                prodName: {$regex: txtSearch.toUpperCase()} ,
+                                                catagory: cataSearch.toUpperCase()
                                               });
       }
     }
@@ -147,17 +146,15 @@ router.post('/searchResult/', auth, async (req, res) => {
     {
       if(!isNaN(txtSearch))
       {
-        products = await Product.find().where({ $and: [ 
-                                                        { $or: [{ prodId: txtSearch}, { upc: txtSearch }]},
-                                                      ] 
-                                              });
+        products = await Product.find({ 
+                                        $or: [{ prodId: txtSearch}, { upc: txtSearch }]
+                                      });
       }
       else
       {
-        products = await Product.find().where({ $and: [ 
-                                                        { prodName: {$regex: txtSearch.toUpperCase()} },
-                                                      ]
-                                              });
+        products = await Product.find({
+                                        prodName: {$regex: txtSearch.toUpperCase()}
+                                      });
       }
     }
   }
@@ -165,7 +162,7 @@ router.post('/searchResult/', auth, async (req, res) => {
   {
     if(cataSearch != 'any')
     {
-      products = await Product.find().where({ catagory: cataSearch} );
+      products = await Product.find({ catagory: cataSearch} );
     }
   }
 
