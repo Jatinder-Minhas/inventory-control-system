@@ -53,12 +53,12 @@ $(document).ready( () => {
             alert("Please Fill Customer Name Field");
             return false;
         }
-        else if(phone == "" || isNaN(phone))
+        else if(phone == "" || isNaN(phone) || phone > 20)
         {
             alert("Please Fill Customer Phone Number Field");
             return false;
         }
-        else if(amountPaid == null || amountPaid == undefined || amountPaid == "")
+        else if(amountPaid == null || amountPaid == undefined || amountPaid == "" || amountPaid < 0)
         {
             alert("Please Fill Payment Made Field");
             return false;

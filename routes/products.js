@@ -128,7 +128,6 @@ router.post('/searchResult/', auth, async (req, res) => {
     {
       if(!isNaN(txtSearch))
       {
-        console.log("in");
         products = await Product.find().where({
                                                 $or: [{ prodId: txtSearch}, { upc: txtSearch }],
                                                 catagory: cataSearch.toUpperCase()
@@ -190,7 +189,7 @@ router.post('/update_delete/productId/', auth, async (req, res) => {
   if (product.length == 0) {
     message = "";
     error = "";
-    searchMessage = "Invalid product number or UPC";
+    searchMessage = "Invalid partNo or UPC";
     return res.render('update_delete', { product: emptyProduct(), error: error, message: message, searchMessage:searchMessage });
   }
 
@@ -205,9 +204,8 @@ router.post('/update_delete/productId/', auth, async (req, res) => {
 router.post('/update_delete/product/makeUpdate', auth, async (req, res) => {
 
   const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
 
-  console.log(error);
+  if (error) return res.status(400).send(error.details[0].message);
 
   cata = (req.body.catagory).toUpperCase();
 
@@ -233,8 +231,6 @@ router.post('/update_delete/product/makeUpdate', auth, async (req, res) => {
       cost: parseInt(req.body.cost),
       isShort: (req.body.quantity - req.body.minQuantity < 0) ? true : false
   }, { new: true });
-
-  console.log(product);
 
   if (!product) return res.status(404).send('The Product with the given ID was not found.');
 

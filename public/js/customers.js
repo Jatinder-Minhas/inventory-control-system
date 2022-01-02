@@ -1,5 +1,4 @@
 var selectedRow = null;
-var phone;
 
 $(document).ready( () => {
 
@@ -13,13 +12,14 @@ $(document).ready( () => {
         $(this).addClass("active-row");
         selectedRow = $(this);
 
-        _id = selectedRow.children("td:first").text();
+        partNo = selectedRow.children("td:first").text();
 
-        // copying to clipborad
-        navigator.clipboard.writeText(selectedRow.find("td:eq(1)").text().trim());
+        product = data.find(x => x.prodId == partNo);
 
-        $("#_idView").val(_id.trim());
-        $("#_idChange").val(_id.trim());
+         // copying to clipborad
+         navigator.clipboard.writeText(selectedRow.find("td:eq(1)").text().trim());
+
+        createTable(product);
     });
 
 });

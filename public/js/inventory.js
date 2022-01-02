@@ -16,6 +16,9 @@ $(document).ready( () => {
 
         product = data.find(x => x.prodId == partNo);
 
+        // copying to clipborad
+        navigator.clipboard.writeText(partNo.trim());
+
         createTable(product);
     });
 

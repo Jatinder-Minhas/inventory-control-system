@@ -75,7 +75,6 @@ router.post('/createOrder/addItem', auth, async (req, res) => {
   
 
   stringifyFile = JSON.stringify(orderTable);
-  console.log(stringifyFile);
 
   res.render('createOrder', { username: global.username, stringifyFile: stringifyFile, products: orderTable, error: error});
 
@@ -94,12 +93,9 @@ router.post('/createOrder/removeItem', auth, async (req, res) => {
   {
     if(orderTable[i].itemNo == parseInt(no))
     {
-      console.log(no);
       orderTable.splice(i,1);
     }
   }
-
-  console.log(orderTable);
 
   stringifyFile = JSON.stringify(orderTable);
 
@@ -154,7 +150,6 @@ router.post('/createOrder', auth, async (req, res) => {
     }
     else
     {
-      console.log("created")
       ajductQuantity(orderTable);
     }
   });
@@ -191,6 +186,9 @@ This route is used to search the order on View Order page
     var orders = [];
   
     var txtSearch = req.body.txtSearch;
+    var iniStart = req.body.beginDate;
+    var iniEnd = req.body.endDate;
+    console.log(txtSearch);
     var isSelected = req.body.pending;
     
     if(req.body.beginDate == "" && req.body.endDate == "")
@@ -218,8 +216,16 @@ This route is used to search the order on View Order page
     {
       orders = await Order.find().where({status: isSelected});
     }
+    else if(!isNaN(txtSearch) && txtSearch != "" && iniStart == "" && iniEnd == "")
+    {
+      console.log("1 in");
+      orders = await Order.find().where(
+        { phone: txtSearch}
+      );
+    }
     else if(!isNaN(txtSearch) && txtSearch != "")
     {
+      console.log("2 in");
       orders = await Order.find().where(
         { $and: [{ phone: txtSearch}, 
                  { date: {
@@ -231,6 +237,7 @@ This route is used to search the order on View Order page
     }
     else if(txtSearch == "")
     {
+      console.log("3 in");
       orders = await Order.find().where(
         {
             date: {
@@ -242,6 +249,7 @@ This route is used to search the order on View Order page
     }
     else
     {
+      console.log("4 in");
       const customer = await Customer.find().where({ custName: txtSearch});
       orders = await Order.find().where(
         { $and: [{ custName: txtSearch}, 
@@ -267,11 +275,10 @@ This route is used to view the details of the order
 
     console.log((req.body._id).trim());
 
+
     _id = (req.body._id).trim();
 
     const orders = await Order.find().where({ _id: _id})
-
-    console.log(JSON.stringify(orders));
 
     res.render('orderDetails', { username: global.username, orders: orders, moment: moment});
 
