@@ -188,7 +188,6 @@ This route is used to search the order on View Order page
     var txtSearch = req.body.txtSearch;
     var iniStart = req.body.beginDate;
     var iniEnd = req.body.endDate;
-    console.log(txtSearch);
     var isSelected = req.body.pending;
     
     if(req.body.beginDate == "" && req.body.endDate == "")
@@ -218,14 +217,12 @@ This route is used to search the order on View Order page
     }
     else if(!isNaN(txtSearch) && txtSearch != "" && iniStart == "" && iniEnd == "")
     {
-      console.log("1 in");
       orders = await Order.find().where(
         { phone: txtSearch}
       );
     }
     else if(!isNaN(txtSearch) && txtSearch != "")
     {
-      console.log("2 in");
       orders = await Order.find().where(
         { $and: [{ phone: txtSearch}, 
                  { date: {
@@ -237,7 +234,6 @@ This route is used to search the order on View Order page
     }
     else if(txtSearch == "")
     {
-      console.log("3 in");
       orders = await Order.find().where(
         {
             date: {
@@ -249,7 +245,6 @@ This route is used to search the order on View Order page
     }
     else
     {
-      console.log("4 in");
       const customer = await Customer.find().where({ custName: txtSearch});
       orders = await Order.find().where(
         { $and: [{ custName: txtSearch}, 
