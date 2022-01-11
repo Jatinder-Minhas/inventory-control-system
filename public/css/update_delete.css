@@ -146,10 +146,11 @@ body
     box-sizing: border-box;
 }
 
-.form h4
+#formHeader
 {
     text-align: center;
-    color: #333;
+    color: #45a049;
+    font-weight: bold;
 }
 
 .form {

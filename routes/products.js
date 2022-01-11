@@ -184,7 +184,16 @@ router.get('/update_delete', auth, async (req, res) => {
 */
 router.post('/update_delete/productId/', auth, async (req, res) => {
 
-  const product = await Product.find().where({ $or: [{ prodId: req.body.prodId}, { upc: req.body.prodId }] });
+  var product;
+
+  if(!isNaN(req.body.prodId))
+  {
+    product = await Product.find().where({ $or: [{ prodId: req.body.prodId}, { upc: req.body.prodId }] });
+  }
+  else
+  {
+    product = [];
+  }
 
   if (product.length == 0) {
     message = "";
@@ -245,7 +254,7 @@ router.post('/update_delete/product/delete', auth, async (req, res) => {
 
   const product = await Product.deleteOne({prodId: req.body.prodId});
 
-    if(product.deletedCount> 0)
+    if(product.deletedCount > 0)
     {
       error = "";
       message = "Product is Deleted";

@@ -9,17 +9,17 @@
             <h2 id="hadder">Inventory System Login Page</h2>
         
 
-        <form action="/" method="POST">
+        <form action="/" method="POST" autocomplete="off">
             
             <h2>Login Form</h2>
 
             <div class="login_container">
 
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Enter Username" required/>
+                <input type="text" id="username" name="username" placeholder="Enter Username" autocomplete="off" required/>
                 
                 <label for="pwd">Password</label>
-                <input type="password" id="pwd" name="pwd" placeholder="Enter Password" required/>
+                <input type="password" id="pwd" name="pwd" placeholder="Enter Password" autocomplete="off" required/>
                 
                 <span id="error"><%=error%></span>
 

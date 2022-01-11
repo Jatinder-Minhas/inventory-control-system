@@ -9,6 +9,14 @@ const Order = mongoose.model('Order', new mongoose.Schema({
         required: true,
         maxlength: 20
     },
+    username: {
+        type: String,
+        uppercase: true,
+        required: true,
+        unique: true,
+        minlength: 2,
+        maxlength: 50
+    },
     items: {
         type: Object,
         required: true

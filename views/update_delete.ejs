@@ -56,6 +56,7 @@
                 <div class="reverse">
                     <a href="/api/products/inventory" >Inventory</a>
                     <a href="/api/products/update_delete" class="active" >Update/Delete</a>
+                    <a href="/api/products/add/">Add Product</a>
                     <a href="/api/orders/createOrder">Create Order</a>
                     <div class="dropDown">
                         <button class="dropBtn">Other Options
@@ -63,7 +64,6 @@
                         </button>
 
                         <div class="dropdown-content">
-                            <a href="/api/products/add/" target="_blank">Add Product</a>
                             <a href="/api/customers/view/" target="_blank">View Customers</a>
                             <a href="/api/orders/view/" target="_blank">View Orders</a>
                             <a href="/api/products/stock_In_Short" target="_blank">Stock in short</a>
@@ -74,19 +74,18 @@
                 </div>
             </div>
 
-                <div class="search">
-                    <form action="/api/products/update_delete/productId/" method="POST">
-                        <label id="searchLabel" for="txtSearch">Enter partNo./upc:</label>
-                        <input type="text" id="txtSearch" name="prodId" value="<%=product.prodId%>">
-                        <input type="submit" id="btnSearch" class="btn btn-primary" value="Search">
-                    </form>
-                    <span id="error"><%=searchMessage%></span>
-                </div>
+            <div class="search">
+                <form action="/api/products/update_delete/productId/" method="POST" autocomplete="off">
+                    <label id="searchLabel" for="txtSearch">Enter partNo./upc:</label>
+                    <input type="text" id="txtSearch" name="prodId" value="<%=product.prodId%>" autocomplete="off">
+                    <input type="submit" id="btnSearch" class="btn btn-primary" value="Search">
+                </form>
+                <span id="error"><%=searchMessage%></span>
+            </div>
 
             <div class="form">
-
-                <h4>Product Details</h4>
-                <form action="/api/products/update_delete/product/makeUpdate" method="POST">
+                <h4 id="formHeader">Product Details</h4>
+                <form action="/api/products/update_delete/product/makeUpdate" method="POST" autocomplete="off">
                     <div class="formRow">
                         <div class="row">
                             <label for="prodId">Product Number: </label>

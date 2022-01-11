@@ -4,8 +4,8 @@
   "description": "Inventory Control System",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npm run open",
+    "open": "concurrently \"http-server -a localhost -p 3000\" \"open http://localhost:3000/build\""
   },
   "author": "Jatinder Minhas",
   "license": "ISC",
@@ -25,5 +25,9 @@
     "moment": "^2.29.1",
     "mongoose": "^6.0.2",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "http-server": "^14.0.0"
   }
 }

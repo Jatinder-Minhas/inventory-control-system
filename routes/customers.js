@@ -10,9 +10,7 @@ const router = express.Router();
 */
 router.get('/view', auth, async (req, res) => {
 
-  const customers = await Customer.find();
-
-  res.render('viewCustomers', { username: global.username, customers: customers})
+  res.render('viewCustomers', { username: global.username, customers: [], error: ""});
 
 }); 
 
@@ -21,20 +19,29 @@ router.get('/view', auth, async (req, res) => {
 */
 router.post('/searchCustomer', auth, async (req, res) => {
 
+  var error = "";
   txtSearch = req.body.txtSearch;
 
-  if(isNaN(txtSearch))
+  if(txtSearch == "")
+  {
+    customers = await Customer.find();
+  }
+  else if(isNaN(txtSearch))
   {
     customers = await Customer.find().where({custName: txtSearch});
   }
   else
   {
-   customers = await Customer.find().where({phone: txtSearch});
+    customers = await Customer.find().where({phone: txtSearch});
   }
 
-  res.render('viewCustomers', { username: global.username, customers: customers})
+  if(customers.length <= 0)
+  {
+    error = "Not found";
+  }
+
+  res.render('viewCustomers', { username: global.username, customers: customers, error: error});
 
 }); 
-
 
 module.exports = router;

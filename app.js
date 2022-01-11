@@ -57,4 +57,17 @@ app.use('/api/Orders', orders);
 app.use('/api/customers', customers);
 
 const port = process.env.PORT || 3000;
-app.listen(port, () => startupDebugger(`Listening on port ${port}...`));
+var server = app.listen(port, function() {
+  var port = server.address().port;
+  var url = `http://localhost:${port}`;
+
+  var start =
+    process.platform == "darwin"
+      ? "open"
+      : process.platform == "win32"
+      ? "start"
+      : "xdg-open";
+  require("child_process").exec(start + " " + url);
+  console.log("App now running on port", port);
+  console.log("If not redirected go to 'http://localhost:3000/'");
+});

@@ -46,6 +46,7 @@
                 <div class="reverse">
                     <a href="/api/products/inventory" >Inventory</a>
                     <a href="/api/products/update_delete">Update/Delete</a>
+                    <a href="/api/products/add/" class="active" >Add Product</a>
                     <a href="/api/orders/createOrder">Create Order</a>
                     <div class="dropDown">
                         <button class="dropBtn">Other Options
@@ -53,7 +54,6 @@
                         </button>
 
                         <div class="dropdown-content">
-                            <a href="/api/products/add/" target="_blank" class="active" >Add Product</a>
                             <a href="/api/customers/view/" target="_blank">View Customers</a>
                             <a href="/api/orders/view/" target="_blank">View Orders</a>
                             <a href="/api/products/stock_In_Short" target="_blank">Stock in short</a>
@@ -67,7 +67,7 @@
             <div class="form">
 
                 <h4> Add New Product</h4>
-                <form action="" method="POST">
+                <form action="" method="POST" autocomplete="off">
                     <div class="formRow">
                         <div class="row">
                             <label for="prodId">Part Number: </label>

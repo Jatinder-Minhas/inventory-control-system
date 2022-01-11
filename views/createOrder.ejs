@@ -47,6 +47,7 @@
                 <div class="reverse">
                     <a href="/api/products/inventory" >Inventory</a>
                     <a href="/api/products/update_delete">Update/Delete</a>
+                    <a href="/api/products/add/" >Add Product</a>
                     <a href="/api/orders/createOrder" class="active" >Create Order</a>
                     <div class="dropDown">
                         <button class="dropBtn">Other Options
@@ -54,7 +55,6 @@
                         </button>
 
                         <div class="dropdown-content">
-                            <a href="/api/products/add/" target="_blank">Add Product</a>
                             <a href="/api/customers/view/" target="_blank">View Customers</a>
                             <a href="/api/orders/view/" target="_blank">View Orders</a>
                             <a href="/api/products/stock_In_Short" target="_blank">Stock in short</a>
@@ -128,31 +128,17 @@
                 
             </div>
 
-            <div class="addCustomer">
-                <h4>Customer Details</h4>
-                <table>
-                    <tr>
-                        <td><label id="label" for="txtCustName">Customer Name:</label></td>
-                        <td><input type="text" id="txtCustName"><br></td>
-                    </tr>
-                    <tr>
-                        <td><label id="label" for="txtPhone">Phone number:</label></td>
-                        <td><input type="text" id="txtPhone"><br></td>
-                    </tr>
-                </table>   
-            </div>
-
             <div class="addProduct">
                 <h4>Add Product to Order</h4>
-                <form action="/api/orders/createOrder/addItem" method="POST">
+                <form action="/api/orders/createOrder/addItem" method="POST" autocomplete="off">
                     <table>
                         <tr>
                             <td><label id="label" for="txtSearch">Part No./Upc:</label></td>
-                            <td><input type="text" name="txtSearch" id="txtSearch"><br></td>
+                            <td><input type="text" name="txtSearch" id="txtSearch" autocomplete="off"><br></td>
                         </tr>
                         <tr>
                             <td><label id="label" for="txtQuantity">Quantity:</label></td>
-                            <td><input type="text" name="txtQuantity" id="txtQuantity"><br></td>
+                            <td><input type="text" name="txtQuantity" id="txtQuantity" autocomplete="off"><br></td>
                         </tr>
                         <tr>
                             <td></td>
@@ -169,13 +155,21 @@
                 <h4>Payment Details</h4>
                 <table>
                     <tr>
+                        <td><label id="label" for="txtCustName">Customer Name:</label></td>
+                        <td><input type="text" id="txtCustName" autocomplete="off"><br></td>
+                    </tr>
+                    <tr>
+                        <td><label id="label" for="txtPhone">Phone number:</label></td>
+                        <td><input type="text" id="txtPhone" autocomplete="off"><br></td>
+                    </tr>
+                    <tr>
                         <td><label id="label" for="txtTotalPrice">Total Amount:</label></td>
                         <td><input type="text" id="txtTotalPrice" readonly><br></td>
                     </tr>
 
                     <tr>
                         <td><label id="label" for="txtAmountPaid">Total payment made:</label></td>
-                        <td><input type="text" id="txtAmountPaid"><br></td>
+                        <td><input type="text" id="txtAmountPaid" autocomplete="off"><br></td>
                     </tr>
                 </table>
             </div>

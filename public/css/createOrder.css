@@ -8,7 +8,6 @@ body
 
 .topnav { grid-area: navbar;}
 .orderTable {grid-area: orderTable;}
-.addCustomer {grid-area: addCustomer;}
 .addProduct {grid-area: addProduct;}
 .paymentDetails {grid-area: paymentDetails;}
 #footer { grid-area: footer; }
@@ -20,8 +19,8 @@ body
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: auto auto auto auto auto;
     grid-template-areas: "navbar navbar navbar navbar"
-                         "orderTable orderTable addCustomer addCustomer"
                          "orderTable orderTable addProduct addProduct"
+                         "orderTable orderTable paymentDetails paymentDetails"
                          "orderTable orderTable paymentDetails paymentDetails"
                          "footer footer footer footer";
 }
@@ -212,9 +211,9 @@ body
 
 h4
 {
-    font-size: medium;
+  font-size: medium;
   margin: 0px;
-  padding: 10px;
+  padding: 10px 20px;
   color: #333;
   font-weight: bold;
   text-align: center;
@@ -246,9 +245,9 @@ h3
     float: right;
 }
 
-.addCustomer, .addProduct
+.addProduct
 {
-    padding: 10px 20px;
+    padding: 20px 20px;
     background-color: #f3f3f3;
     border-collapse: collapse;
     border-radius: 5px;

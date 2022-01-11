@@ -227,21 +227,23 @@ body
   border-bottom: 2px solid #009879;
 }
 
-.btn
+#btn
 {
-  width: 100%;
+  overflow:hidden;
+  margin-right: 0px;
+  margin-left: auto;
 }
 
 #btnSearch
 {
-  margin: 0px 20px;
+  margin: 0px 10px;
   float: right;
 }
 
 .btn.btn-primary
 {
-  width: 150px;
-  padding: 4px 5px;
+  width: 100px;
+  padding: 4px 0px;
 }
 
 .btn.btn-secondary

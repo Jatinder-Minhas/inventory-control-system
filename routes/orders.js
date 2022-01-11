@@ -8,6 +8,7 @@ const { Customer } = require('../models/customer');
 const { Order } = require('../models/order');
 const { render } = require('ejs');
 const moment = require('moment');
+const mongoose = require('mongoose');
 
 var itemNo;
 var custName;
@@ -114,6 +115,7 @@ router.post('/createOrder', auth, async (req, res) => {
     phone = req.body.phone;
     amountPaid = req.body.amountPaid;
     totalPrice = totalCostSum(orderTable);
+    username = global.username;
 
     const customer = await Customer.find().where({phone: phone});
 
@@ -135,6 +137,7 @@ router.post('/createOrder', auth, async (req, res) => {
 
   let order = new Order({
     phone: phone,
+    username: username,
     items: orderTable,
     date: Date.now(),
     totalPrice: totalPrice,
@@ -229,7 +232,8 @@ This route is used to search the order on View Order page
                           $gte: beginDate, 
                           $lt: endDate
                          }
-                 }] }
+                 }] 
+        }
       );
     }
     else if(txtSearch == "")
@@ -246,15 +250,23 @@ This route is used to search the order on View Order page
     else
     {
       const customer = await Customer.find().where({ custName: txtSearch});
-      orders = await Order.find().where(
-        { $and: [{ custName: txtSearch}, 
-                 { date: {
-                          $gte: beginDate, 
-                          $lt: endDate
-                         }
-                 }] 
-        }
-      );
+      
+      if(customer.length > 0)
+      {
+        orders = await Order.find().where(
+          {phone: customer[0].phone}
+        );
+      }
+
+      if(mongoose.isValidObjectId(txtSearch))
+      {
+        const order = await Order.findById(txtSearch);
+        orders.push(order);
+      }
+      else
+      {
+        orders = [];
+      }
     }
   
     stringifyFile = JSON.stringify(orders);
@@ -268,15 +280,18 @@ This route is used to view the details of the order
 
   router.post('/viewOrder', auth, async (req, res) => {
 
-    console.log((req.body._id).trim());
-
-
     _id = (req.body._id).trim();
 
-    const orders = await Order.find().where({ _id: _id})
-
-    res.render('orderDetails', { username: global.username, orders: orders, moment: moment});
-
+    if(_id != "")
+    {
+      const orders = await Order.find().where({ _id: _id});
+      return res.render('orderDetails', { username: global.username, orders: orders, moment: moment});
+    }
+    else
+    {
+      var orders = [];
+      return res.render('viewOrders', { username: global.username, orders: [], stringifyFile: [], moment: moment });
+    }
   });
 
 /*
@@ -287,15 +302,17 @@ This route is used to change the status of a order to paid
 
     _id = (req.body._id).trim();
 
-    const or = await Order.find().where({ _id: _id})
+    if(_id != "")
+    {
+      const or = await Order.find().where({ _id: _id})
+      totalPrice = or[0].totalPrice;
 
-    totalPrice = or[0].totalPrice;
-
-    const order = await Order.findOneAndUpdate({ _id: _id},
+      const order = await Order.findOneAndUpdate({ _id: _id},
       {
         amountPaid: totalPrice,
         status: true
       }, { new: true });
+    }
 
      const orders = await Order.find().where({ date: {
         $gte: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), 

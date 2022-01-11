@@ -53,7 +53,7 @@ $(document).ready( () => {
             alert("Please Fill Customer Name Field");
             return false;
         }
-        else if(phone == "" || isNaN(phone) || phone > 20)
+        else if(phone == "" || isNaN(phone) || parseInt(phone).length > 20)
         {
             alert("Please Fill Customer Phone Number Field");
             return false;

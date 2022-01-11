@@ -228,9 +228,11 @@ body
   border-bottom: 2px solid #009879;
 }
 
-.btn
+#btn
 {
-  width: 100%;
+  overflow:hidden;
+  margin-right: 0px;
+  margin-left: auto;
 }
 
 #btnSearch
